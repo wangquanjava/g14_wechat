@@ -20,7 +20,7 @@ public class MessageController {
 	private String token;
 	
 	@RequestMapping("/message")
-	public ResponseEntity<String> check(String signature,String echostr,String timestamp,String nonce,HttpServletRequest request){
+	public ResponseEntity<String> message(String signature,String echostr,String timestamp,String nonce,HttpServletRequest request){
 		//+token后排序
 		String[] tempArr = {timestamp,nonce,token};
 		Arrays.sort(tempArr);
