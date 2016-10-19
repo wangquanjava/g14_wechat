@@ -9,6 +9,7 @@ import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.DocumentHelper;
@@ -23,7 +24,12 @@ public class WeChatUtil {
 		return IOUtils.toString(inputStream);
 	}
 
-	public static XmlEntity parseToXmlEntity(String msg) {
+	/**
+	 * 使用反射把xml注入到XmlEntity中
+	 * @param msg
+	 * @return
+	 */
+	public static XmlEntity parseToEntity(String msg) {
 		XmlEntity xmlEntity = new XmlEntity();
 		try {
 			// 得到xml文档对象，并得到元素标签集合
@@ -34,7 +40,7 @@ public class WeChatUtil {
 			// 遍历xml元素名-值的对应的集合
 			for (Element element : elements) {
 				String name = element.getName();
-				String value = element.getStringValue();
+				String value = formatRequest(element.getStringValue());
 
 				// 执行以xml元素名为名的方法
 				Class<? extends XmlEntity> clazz = xmlEntity.getClass();
@@ -46,4 +52,43 @@ public class WeChatUtil {
 		}
 		return xmlEntity;
 	}
+	
+	/**
+	 * 去掉回车、空格 
+	 * @param requsetText
+	 * @return
+	 */
+	public static String formatRequest(String requsetText){
+		return StringUtils.remove(requsetText, "\n").trim();
+	}
+	
+	/**
+	 * 使用反射得到XmlEntity的get方法，拼接xml
+	 * @param xmlEntity
+	 * @return
+	 * @throws Exception
+	 */
+	public static String parseToXml(XmlEntity xmlEntity) throws Exception{
+		String xmlResult = "";
+		StringBuffer sb = new StringBuffer();
+		
+		
+		sb.append("<xml>");
+		
+		//开始遍历方法
+		Method[] methods = xmlEntity.getClass().getDeclaredMethods();
+		for (Method method : methods) {
+			if (method.getName().startsWith("get")) {
+				String temp = (String) method.invoke(xmlEntity, null);
+				if (temp!=null) {
+					String value = "<![CDATA[" + temp + "]]>";
+					sb.append("<" + StringUtils.substringAfter(method.getName(), "get") + ">" + value + "</" + StringUtils.substringAfter(method.getName(), "get") + ">");
+				}
+			}
+		}
+		sb.append("</xml>");
+		xmlResult = sb.toString();
+		return xmlResult;
+	}
+	
 }

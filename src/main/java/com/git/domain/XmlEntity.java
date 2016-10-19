@@ -1,4 +1,8 @@
 package com.git.domain;
+
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
+@JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
 public class XmlEntity {
   private String ToUserName;
   private String FromUserName;

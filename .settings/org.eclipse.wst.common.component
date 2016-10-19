@@ -5,6 +5,6 @@
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
         <property name="java-output-path" value="/g05_ssm_template/target/classes"/>
-        <property name="context-root" value="g05_template"/>
+        <property name="context-root" value="g14_wechat"/>
     </wb-module>
 </project-modules>

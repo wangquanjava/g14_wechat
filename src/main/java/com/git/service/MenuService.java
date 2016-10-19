@@ -1,5 +1,5 @@
 package com.git.service;
 
-public class ServiceDemo {
+public interface MenuService {
 
 }
