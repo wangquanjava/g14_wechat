@@ -1,7 +1,12 @@
-package com.git.controller;
+package com.git.domain;
 
 import com.git.service.MenuService;
 
+/**
+ * 菜单类
+ * @author tdp
+ *
+ */
 public class ResponseMenu {
 	private Integer index;
 	private String text;
