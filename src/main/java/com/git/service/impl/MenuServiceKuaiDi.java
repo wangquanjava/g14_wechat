@@ -4,25 +4,25 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.Set;
 
 import javax.annotation.PostConstruct;
 
-import org.apache.commons.collections.MapUtils;
-import org.junit.Test;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import com.alibaba.fastjson.JSON;
 import com.git.domain.JuheResponse;
 import com.git.domain.KuaiDiEntity;
 import com.git.domain.XmlEntity;
 import com.git.service.ApiService;
 import com.git.service.HttpResult;
 import com.git.service.MenuService;
+import com.google.common.reflect.TypeToken;
+import com.google.gson.Gson;
 
 @Service("menuServiceKuaiDi")
 public class MenuServiceKuaiDi implements MenuService{
@@ -46,6 +46,17 @@ public class MenuServiceKuaiDi implements MenuService{
 	
 	@Override
 	public XmlEntity exec(String text,XmlEntity xmlEntity) throws Exception {
+		XmlEntity xmlEntityResponse = new XmlEntity();
+		xmlEntityResponse.setToUserName(xmlEntity.getFromUserName());
+		xmlEntityResponse.setFromUserName(xmlEntity.getToUserName());
+		xmlEntityResponse.setCreateTime(new Date().getTime() + "");
+		xmlEntityResponse.setMsgType("text");
+		
+		//为了测试，这里截断
+		if (StringUtils.equals("", "")) {
+			xmlEntityResponse.setContent("这是快递查询结果");
+			return xmlEntityResponse;
+		}
 		HashMap<String,Object> params = new HashMap<>();
 		params.put("key", this.appkey);
 		params.put("com", getCom(text));
@@ -57,16 +68,9 @@ public class MenuServiceKuaiDi implements MenuService{
 		if (!httpResult.getCode().equals(200)) {
 			return null;
 		}
-		JuheResponse<KuaiDiEntity> juheResponse = new JuheResponse<>();
-		juheResponse.setT(new KuaiDiEntity());
-		JuheResponse<KuaiDiEntity> juheResponse2 = JSON.parseObject(httpResult.getBody(), juheResponse.getClass());
+		JuheResponse<KuaiDiEntity> juheResponse = new Gson().fromJson(httpResult.getBody(), new TypeToken<JuheResponse<KuaiDiEntity>>() {}.getType());
 		
-		XmlEntity xmlEntityResponse = new XmlEntity();
-		xmlEntityResponse.setToUserName(xmlEntity.getFromUserName());
-		xmlEntityResponse.setFromUserName(xmlEntity.getToUserName());
-		xmlEntityResponse.setCreateTime(new Date().getTime() + "");
-		xmlEntityResponse.setMsgType("text");
-		xmlEntityResponse.setContent(juheResponse2.getT().getCompany());
+		xmlEntityResponse.setContent(juheResponse.getResult().getCompany());
 		
 		return xmlEntityResponse;
 	}
@@ -95,10 +99,4 @@ public class MenuServiceKuaiDi implements MenuService{
         }
 		return null;
 	}
-	@Test
-	public void Demo(){
-		String no = getCom("顺丰575677355677");
-		System.out.println(no);
-	}
-
 }

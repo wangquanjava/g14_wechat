@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class CheckController {
 	private static final Logger logger = Logger.getLogger(CheckController.class);
-	
 
 	@Value("${token}")
 	private String token;
