@@ -3,7 +3,7 @@ package com.git.domain;
 public class JuheResponse<T> {
 	private Integer resultcode;
 	private String reason;
-	private T t;
+	private T result;
 	public Integer getResultcode() {
 		return resultcode;
 	}
@@ -16,11 +16,11 @@ public class JuheResponse<T> {
 	public void setReason(String reason) {
 		this.reason = reason;
 	}
-	public T getT() {
-		return t;
+	public T getResult() {
+		return result;
 	}
-	public void setT(T t) {
-		this.t = t;
+	public void setResult(T result) {
+		this.result = result;
 	}
 	
 	
