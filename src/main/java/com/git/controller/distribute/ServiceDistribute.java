@@ -8,7 +8,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Controller;
 
-import com.git.domain.menu.ResponseMenu;
+import com.git.domain.menu.Menu;
 import com.git.service.ExecServiceI;
 
 /**
@@ -26,7 +26,7 @@ public class ServiceDistribute {
 	/**
 	 * 所有菜单的index-service对应表
 	 */
-	public static final Map<String, ResponseMenu> menus = new HashMap<>();
+	public static final Map<String, Menu> menus = new HashMap<>();
 	
 	@Resource(name = "kuaiDiService")
 	public ExecServiceI kuaiDiService;
@@ -46,7 +46,7 @@ public class ServiceDistribute {
 	
 	@PostConstruct
 	public void init() {
-		menus.put("1", new ResponseMenu("快递查询", kuaiDiService, "请输入快递公司和快递号"));
+		menus.put("1", new Menu("快递查询", kuaiDiService, "请输入快递公司和快递号"));
 	}
 	
 	/**

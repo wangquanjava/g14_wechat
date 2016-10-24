@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.git.controller.distribute.ServiceDistribute;
 import com.git.domain.XmlEntity;
-import com.git.domain.menu.ResponseMenu;
+import com.git.domain.menu.Menu;
 import com.git.service.ExecServiceI;
 
 @Service("menuServiceImpl")
@@ -24,7 +24,7 @@ public class MenuServiceImpl implements ExecServiceI {
 		StringBuffer content = new StringBuffer();
 		Set<String> keySet = ServiceDistribute.menus.keySet();
 		for (String index : keySet) {
-			ResponseMenu responseMenu = ServiceDistribute.menus.get(index);
+			Menu responseMenu = ServiceDistribute.menus.get(index);
 			content.append(index + "." + responseMenu.getText() + "\n");
 		}
 		

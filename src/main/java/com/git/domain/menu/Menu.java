@@ -7,7 +7,7 @@ import com.git.service.ExecServiceI;
  * @author tdp
  *
  */
-public class ResponseMenu {
+public class Menu {
 	private String text;
 	private ExecServiceI execServiceI;
 	private String mark;
@@ -23,7 +23,7 @@ public class ResponseMenu {
 	public void setExecServiceI(ExecServiceI execServiceI) {
 		this.execServiceI = execServiceI;
 	}
-	public ResponseMenu(String text, ExecServiceI execServiceI,String mark) {
+	public Menu(String text, ExecServiceI execServiceI,String mark) {
 		super();
 		this.text = text;
 		this.execServiceI = execServiceI;

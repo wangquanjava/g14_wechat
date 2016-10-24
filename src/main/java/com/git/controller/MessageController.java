@@ -4,6 +4,7 @@ import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,15 +41,18 @@ public class MessageController {
 	 */
 
 	@RequestMapping(value = "/", method = RequestMethod.POST)
-	public ResponseEntity<String> getMsg2(HttpServletRequest request) {
+	public ResponseEntity<String> getMsg(HttpServletRequest request) {
 		try {
+			//从request中获取xml信息
 			String xmlRequest = WeChatUtil.getRequestData(request);
+			//把xml封装到entity中
 			XmlEntity xmlEntity = WeChatUtil.parseToEntity(xmlRequest);
-			logger.info("用户" + xmlEntity.getFromUserName() + "在" + DateFormatUtils.format(new Date(), "HH:mm:ss") + "发来消息:"
+			logger.error("用户" + xmlEntity.getFromUserName() + "在" + DateFormatUtils.format(new Date(), "HH:mm:ss") + "发来消息:"
 					+ xmlEntity.getContent());
 			
+			// 从调度器中获得当前用户的service，如果为null或者文本是?，就直接赋值菜单显示service
 			ExecServiceI execServiceI = ServiceDistribute.getService(xmlEntity.getFromUserName());
-			if (execServiceI==null) {
+			if (execServiceI==null||StringUtils.contains("？?", xmlEntity.getContent())) {
 				execServiceI = serviceDistribute.menuServiceImpl;
 				ServiceDistribute.setService(xmlEntity.getFromUserName(), execServiceI);
 			}
