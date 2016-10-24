@@ -3,12 +3,13 @@ package com.git.service.impl;
 import org.springframework.stereotype.Service;
 
 import com.git.domain.XmlEntity;
-import com.git.service.MenuService;
+import com.git.service.ExecServiceI;
 
-public class MenuServiceTel implements MenuService {
+@Service("telServiceImpl")
+public class TelServiceImpl implements ExecServiceI {
 
 	@Override
-	public XmlEntity exec(String text, XmlEntity xmlEntity) throws Exception {
+	public XmlEntity exec(XmlEntity xmlEntity) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}

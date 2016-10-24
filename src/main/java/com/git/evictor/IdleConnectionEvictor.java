@@ -31,6 +31,7 @@ public class IdleConnectionEvictor extends Thread {
 					wait(5000);
 					// 关闭失效的连接
 					connMgr.closeExpiredConnections();
+//					logger.info("关闭空闲线程");
 				}
 			}
 		} catch (InterruptedException ex) {

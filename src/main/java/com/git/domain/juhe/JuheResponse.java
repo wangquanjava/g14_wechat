@@ -1,4 +1,4 @@
-package com.git.domain;
+package com.git.domain.juhe;
 
 public class JuheResponse<T> {
 	private Integer resultcode;

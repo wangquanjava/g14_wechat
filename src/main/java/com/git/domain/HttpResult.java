@@ -1,4 +1,4 @@
-package com.git.service;
+package com.git.domain;
 
 /**
  * 每次请求的返回对象，存储状态码和返回text

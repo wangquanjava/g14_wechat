@@ -21,10 +21,22 @@
 			</bean>
 		</mvc:message-converters>
 	</mvc:annotation-driven>
+	
 	<!-- 静态资源 -->
 	<mvc:default-servlet-handler/>
+	
 	<!-- 配置扫描controller -->
 	<context:component-scan base-package="com.git.controller" />
+	
+	<!-- 配置拦截器 -->
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<!-- path：指定拦截的URL规则 -->
+			<mvc:mapping path="/**" />
+			<bean class="com.git.interceptor.ServiceDistributeInteceptor"></bean>
+		</mvc:interceptor>
+	</mvc:interceptors>
+	
 	<!-- 配置视图解析器 -->
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix" value="/WEB-INF/jsp/" />

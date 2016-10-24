@@ -15,17 +15,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import com.git.domain.JuheResponse;
-import com.git.domain.KuaiDiEntity;
+import com.git.domain.HttpResult;
 import com.git.domain.XmlEntity;
-import com.git.service.ApiService;
-import com.git.service.HttpResult;
-import com.git.service.MenuService;
+import com.git.domain.juhe.JuheResponse;
+import com.git.domain.juhe.kuaidi.KuaiDiEntity;
+import com.git.service.ExecServiceI;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 
-@Service("menuServiceKuaiDi")
-public class MenuServiceKuaiDi implements MenuService{
+@Service("kuaiDiService")
+public class KuaiDiServiceImpl implements ExecServiceI{
 	@Value("${juhe_appkey}")
 	String appkey;
 	
@@ -45,7 +44,7 @@ public class MenuServiceKuaiDi implements MenuService{
 	}
 	
 	@Override
-	public XmlEntity exec(String text,XmlEntity xmlEntity) throws Exception {
+	public XmlEntity exec(XmlEntity xmlEntity) throws Exception {
 		XmlEntity xmlEntityResponse = new XmlEntity();
 		xmlEntityResponse.setToUserName(xmlEntity.getFromUserName());
 		xmlEntityResponse.setFromUserName(xmlEntity.getToUserName());
@@ -59,8 +58,8 @@ public class MenuServiceKuaiDi implements MenuService{
 		}
 		HashMap<String,Object> params = new HashMap<>();
 		params.put("key", this.appkey);
-		params.put("com", getCom(text));
-		params.put("no", getNo(text));
+		params.put("com", getCom(xmlEntity.getContent()));
+		params.put("no", getNo(xmlEntity.getContent()));
 		
 		HttpResult httpResult = this.apiService.doPost(this.url, params);
 		

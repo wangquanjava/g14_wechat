@@ -1,4 +1,4 @@
-package com.git.domain;
+package com.git.domain.juhe.kuaidi;
 
 import java.util.List;
 

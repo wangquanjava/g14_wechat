@@ -1,4 +1,4 @@
-package com.git.service;
+package com.git.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +22,8 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.git.domain.HttpResult;
 
 /*
  * 这是用来快捷进行发送get请求和Post请求的类

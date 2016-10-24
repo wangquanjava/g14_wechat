@@ -1,7 +1,7 @@
 
 
-import com.git.domain.JuheResponse;
-import com.git.domain.KuaiDiEntity;
+import com.git.domain.juhe.JuheResponse;
+import com.git.domain.juhe.kuaidi.KuaiDiEntity;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 
