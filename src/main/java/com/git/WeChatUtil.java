@@ -93,7 +93,7 @@ public class WeChatUtil {
 		return xmlResult;
 	}
 	/**
-	 * 使用反射得到XmlEntity的get方法，拼接xml
+	 * 专门用来解析封装图文消息的NewsEntity
 	 * @param xmlEntity
 	 * @return
 	 * @throws Exception

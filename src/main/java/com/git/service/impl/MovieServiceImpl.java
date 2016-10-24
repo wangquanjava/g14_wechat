@@ -25,7 +25,10 @@ public class MovieServiceImpl implements ExecServiceI{
 		Example example = new Example(Item.class);
 		example.createCriteria().andLike("Title", "%"+xmlEntity.getContent()+"%");
 		List<Item> items = this.itemMapper.selectByExample(example);
-		
+		if (items.size()==0) {
+			XmlEntity xmlEntityResp = new XmlEntity(xmlEntity.getFromUserName(), xmlEntity.getToUserName(), new Date().getTime()+"", "text", "没有搜到，请重试！");
+			return WeChatUtil.parseToXml(xmlEntityResp);
+		}
 		//拼接对象
 		NewsEntity newsEntity = new NewsEntity();
 		newsEntity.setArticles(items);
