@@ -56,8 +56,8 @@ public class MessageController {
 				execServiceI = serviceDistribute.menuServiceImpl;
 				ServiceDistribute.setService(xmlEntity.getFromUserName(), execServiceI);
 			}
-			XmlEntity xmlRes = execServiceI.exec(xmlEntity);
-			return ResponseEntity.status(200).body(WeChatUtil.parseToXml(xmlRes));
+			String xml = execServiceI.exec(xmlEntity);
+			return ResponseEntity.status(200).body(xml);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

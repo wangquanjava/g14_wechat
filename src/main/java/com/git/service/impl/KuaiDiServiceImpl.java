@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.git.WeChatUtil;
 import com.git.domain.HttpResult;
 import com.git.domain.XmlEntity;
 import com.git.domain.juhe.JuheResponse;
@@ -44,7 +45,7 @@ public class KuaiDiServiceImpl implements ExecServiceI{
 	}
 	
 	@Override
-	public XmlEntity exec(XmlEntity xmlEntity) throws Exception {
+	public String exec(XmlEntity xmlEntity) throws Exception {
 		XmlEntity xmlEntityResponse = new XmlEntity();
 		xmlEntityResponse.setToUserName(xmlEntity.getFromUserName());
 		xmlEntityResponse.setFromUserName(xmlEntity.getToUserName());
@@ -54,7 +55,7 @@ public class KuaiDiServiceImpl implements ExecServiceI{
 		//为了测试，这里截断
 		if (StringUtils.equals("", "")) {
 			xmlEntityResponse.setContent("这是快递查询结果");
-			return xmlEntityResponse;
+			return WeChatUtil.parseToXml(xmlEntityResponse);
 		}
 		HashMap<String,Object> params = new HashMap<>();
 		params.put("key", this.appkey);
@@ -71,7 +72,7 @@ public class KuaiDiServiceImpl implements ExecServiceI{
 		
 		xmlEntityResponse.setContent(juheResponse.getResult().getCompany());
 		
-		return xmlEntityResponse;
+		return WeChatUtil.parseToXml(xmlEntityResponse);
 	}
 	/**
 	 * 从文本中提取“顺丰”，并返回sf

@@ -9,7 +9,7 @@ import com.git.service.ExecServiceI;
 public class TianQiServiceImpl implements ExecServiceI {
 
 	@Override
-	public XmlEntity exec(XmlEntity xmlEntity) throws Exception {
+	public String exec(XmlEntity xmlEntity) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}

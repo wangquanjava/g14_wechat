@@ -2,6 +2,7 @@ package com.git.controller.distribute;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
@@ -26,7 +27,7 @@ public class ServiceDistribute {
 	/**
 	 * 所有菜单的index-service对应表
 	 */
-	public static final Map<String, Menu> menus = new HashMap<>();
+	public static final Map<String, Menu> menus = new TreeMap<>();
 	
 	@Resource(name = "kuaiDiService")
 	public ExecServiceI kuaiDiService;
@@ -43,10 +44,14 @@ public class ServiceDistribute {
 	@Resource(name = "menuChooseServiceImpl")
 	public ExecServiceI menuChooseServiceImpl;
 	
+	@Resource(name = "movieServiceImpl")
+	public ExecServiceI movieServiceImpl;
+	
 	
 	@PostConstruct
 	public void init() {
 		menus.put("1", new Menu("快递查询", kuaiDiService, "请输入快递公司和快递号"));
+		menus.put("2", new Menu("电影查询", movieServiceImpl, "请输入电影关键字"));
 	}
 	
 	/**

@@ -15,6 +15,8 @@ import org.dom4j.DocumentException;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 
+import com.git.domain.Item;
+import com.git.domain.NewsEntity;
 import com.git.domain.XmlEntity;
 
 public class WeChatUtil {
@@ -80,6 +82,49 @@ public class WeChatUtil {
 		for (Method method : methods) {
 			if (method.getName().startsWith("get")) {
 				String temp = (String) method.invoke(xmlEntity, null);
+				if (temp!=null) {
+					String value = "<![CDATA[" + temp + "]]>";
+					sb.append("<" + StringUtils.substringAfter(method.getName(), "get") + ">" + value + "</" + StringUtils.substringAfter(method.getName(), "get") + ">");
+				}
+			}
+		}
+		sb.append("</xml>");
+		xmlResult = sb.toString();
+		return xmlResult;
+	}
+	/**
+	 * 使用反射得到XmlEntity的get方法，拼接xml
+	 * @param xmlEntity
+	 * @return
+	 * @throws Exception
+	 */
+	public static String parseNewsEntityToXml(NewsEntity newsEntity) throws Exception{
+		String xmlResult = "";
+		StringBuffer sb = new StringBuffer();
+		
+		
+		sb.append("<xml>");
+		
+		//开始遍历方法
+		Method[] methods = newsEntity.getClass().getDeclaredMethods();
+		for (Method method : methods) {
+			//如果为图文消息字段这里单独处理
+			if (StringUtils.equals(method.getName(), "getArticles")) {
+				sb.append("<Articles>");
+				List<Item> articles = (List<Item>) method.invoke(newsEntity, null);
+				for (Item item : articles) {
+					sb.append("<item>");
+					sb.append("<Title>" + "<![CDATA[" + item.getTitle() + "]]>" + "</Title>");
+					sb.append("<Description>" + "<![CDATA[" + item.getDescription() + "]]>" + "</Description>");
+					sb.append("<PicUrl>" + "<![CDATA[" + item.getPicUrl() + "]]>" + "</PicUrl>");
+					sb.append("<Url>" + "<![CDATA[" + item.getUrl() + "]]>" + "</Url>");
+					sb.append("</item>");
+				}
+				sb.append("</Articles>");
+				continue;
+			}
+			if (method.getName().startsWith("get")) {
+				Object temp = method.invoke(newsEntity, null);
 				if (temp!=null) {
 					String value = "<![CDATA[" + temp + "]]>";
 					sb.append("<" + StringUtils.substringAfter(method.getName(), "get") + ">" + value + "</" + StringUtils.substringAfter(method.getName(), "get") + ">");
